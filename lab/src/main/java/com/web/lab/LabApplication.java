@@ -1,21 +1,19 @@
 package com.web.lab;
 
-import java.io.File;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.expression.Arrays;
+
+import com.web.lab.dominio.Car;
+import com.web.lab.dominio.CarRepository;
 
 @SpringBootApplication
 public class LabApplication implements CommandLineRunner {
+
+	@Autowired
+	private CarRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LabApplication.class, args);
@@ -23,67 +21,13 @@ public class LabApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Hola Mundo");
-	}
-
-	public class Car {
-
-		@Autowired
-    	private Owner owner;
-
-    	@Autowired
-    	private CarRepository CarRepository; 
-
-    	public Car() {
-        	owner = new Owner();
-    	}
-
-    	public Car(Owner owner) {
-        	this.owner = owner;
-    	}
-
-    	public Owner getOwner() {
-        	return owner;
-    	}
-
-    	public void setOwner(Owner owner) {
-        	this.owner = owner;
-    	}
-
-    	@GetMapping("/cars")
-    	public List<Car> fetchAllCars() {
-        	return CarRepository.findAll();
-    	}
-
-	}
-
-	public class Owner {
-
-	}
-
-	@Repository
-	public interface CarRepository extends JpaRepository<Car, Long> {
-	
-	}
-
-	@Configuration
-	public class ConfigFileResource {
-		@Bean(name = "configFile")
-    	public File configFile() {
-        	return new File("configFile.xml");
-    	}
-	}
-
-	@RestController
-	public class CarController {
-
-    	@Autowired
-    	private CarRepository carRepository;
-
-    	@GetMapping("/cars")
-    	public List<Car> fetchAllCars() {
-        	return carRepository.findAll();
-    	}
+		repository.save(new Car("Ford", "Mustang", "Red", 
+		"ADF-1121", 2021, 59000));
+		repository.save(new Car("Nissan", "Leaf", "White", 
+		"SSJ-3002", 2019, 29000));
+		repository.save(new Car("Toyota", "Prius", "Silver", 
+		"KKO-0212", 2020, 39000));
+		
 	}
 
 }
