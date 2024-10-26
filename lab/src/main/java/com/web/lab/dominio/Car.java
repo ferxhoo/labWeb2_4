@@ -1,5 +1,6 @@
 package com.web.lab.dominio;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,20 +17,34 @@ public class Car {
 	private long id;
 
 	private String brand, model, color, numberRegister;
-    private int year_, price;
+    @Column(name="`year`")
+    private int year;
+    private int price;
 
     public Car(){
 
     }
 
-    public Car(String brand, String model, String color, String numberRegister, int year_, int price) {
+    public Car(String brand, String model, String color, String numberRegister, int year, int price) {
         this.brand = brand;
         this.model = model;
         this.color = color;
         this.numberRegister = numberRegister;
-        this.year_ = year_;
+        this.year = year;
         this.price = price;
     }
+
+    public Car(String brand, String model, String color, 
+			String numberRegister, int year, int price, Owner owner) {
+		super();
+		this.brand = brand;
+		this.model = model;
+		this.color = color;
+		this.numberRegister = numberRegister;
+		this.year = year;
+		this.price = price;
+		this.owner = owner;
+	}
 
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "owner")
@@ -85,11 +100,11 @@ public class Car {
     }
 
     public int getYear() {
-        return year_;
+        return year;
     }
 
     public void setYear(int year) {
-        this.year_ = year;
+        this.year = year;
     }
 
     public int getPrice() {
