@@ -22,7 +22,6 @@ public class LabApplication implements CommandLineRunner {
     @Autowired
     private CarRepository repository;
     
-
     @Autowired
     private OwnerRepository orepository;
 
